@@ -1,0 +1,93 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+h1 {
+    text-align: center;
+    color: #0056b3; /* Màu xanh đậm */
+    border-bottom: 2px solid #0056b3;
+    padding-bottom: 10px;
+}
+
+.monitor-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+
+/* Kiểu dáng cho từng ô theo dõi (pH, Nhiệt độ...) */
+.monitor-item {
+    border: 2px solid #ddd; /* Làm viền dày hơn để dễ thấy */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    /* Thêm hiệu ứng chuyển màu mượt mà */
+    transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+
+.monitor-item input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+/* Hiển thị văn bản trạng thái */
+.status-text {
+    font-size: 1.1rem;
+    font-weight: 600; /* In đậm */
+    text-align: center;
+    padding: 10px;
+    border-radius: 4px;
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* --- CÁC LỚP TRẠNG THÁI MÀU SẮC --- */
+
+/* Trạng thái 1: Tốt (Xanh) */
+.status-good {
+    background-color: #d4edda; /* Nền xanh lá nhạt */
+    border-color: #198754;  /* Viền xanh lá đậm */
+}
+.status-good .status-text {
+    color: #0c6a4d;
+    background-color: #c3e6cb;
+}
+
+/* Trạng thái 2: Vừa/Bình thường (Vàng) */
+.status-warning {
+    background-color: #fff3cd; /* Nền vàng nhạt */
+    border-color: #ffc107;  /* Viền vàng đậm */
+}
+.status-warning .status-text {
+    color: #856404;
+    background-color: #ffeeba;
+}
+
+/* Trạng thái 3: Nguy hiểm (Đỏ) */
+.status-danger {
+    background-color: #f8d7da; /* Nền đỏ nhạt */
+    border-color: #dc3545;  /* Viền đỏ đậm */
+}
+.status-danger .status-text {
+    color: #721c24;
+    background-color: #f5c6cb;
+}
+
+/* Trạng thái 4: Mặc định (Xám) */
+.status-default {
+    background-color: #ffffff;
+    border-color: #ddd;
+}
+.status-default .status-text {
+    color: #555;
+    background-color: #f0f0f0;
+}

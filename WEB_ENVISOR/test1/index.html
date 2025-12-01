@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Máy theo dõi Thủy - Hải sản</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>THẢ CON TÉP - BẮT CON TÔM </h1>
+    </header>
+
+    <main class="main-container">
+        
+        <div class="aquarium-container">
+            </div>
+
+        <div class="chart-container">
+            <div class="pie-chart-wrapper">
+                <div class="power-button" id="power-button">
+                    <span class="power-icon"></span>
+                </div>
+
+                <div class="pie-chart">
+                    
+                    <div class="pie-slice" id="slice-temp">
+                        <div class="slice-content-wrapper">
+                            <i class="fa-solid fa-temperature-half icon-pos"></i>
+                            <span class="data-value" id="temp-val">--</span>
+                            <span class="data-unit">°C</span>
+                        </div>
+                    </div>
+
+                    <div class="pie-slice" id="slice-oxy">
+                        <div class="slice-content-wrapper">
+                            <i class="fa-solid fa-water icon-pos"></i>
+                            <div>
+                                <span class="data-value" id="do-val">--</span>
+                                <span class="data-unit"> %</span>
+                            </div>
+                            <span class="data-status" id="motor-val">Đã dừng</span>
+                        </div>
+                    </div>
+
+                    <div class="pie-slice" id="slice-food">
+                         <div class="slice-content-wrapper">
+                             <i class="fa-solid fa-fish-fins icon-pos"></i>
+                             
+                             <span class="data-value" id="feed-val">--</span>
+                             <span class="data-unit">Kg</span>
+
+                        </div>
+                    </div>
+
+                    <div class="pie-slice" id="slice-ph">
+                        <div class="slice-content-wrapper">
+                            <i class="fa-solid fa-flask icon-pos"></i>
+                            <span class="data-value" id="ph-val">--</span>
+                            <span class="data-unit">pH</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+        
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Database - ESP32</title>
+  <style>
+    :root{--bg:#1a1a1a;--card:#2d2d2d;--text:#e0e0e0;--accent:#00bcd4;}
+    body{font-family:Arial;background:var(--bg);color:var(--text);margin:0;padding:20px;}
+    .container{max-width:1200px;margin:auto;}
+    h1{text-align:center;color:var(--accent);}
+    .controls{text-align:center;margin:20px 0;}
+    input,button{padding:10px;margin:5px;border-radius:8px;border:none;}
+    input{background:#333;color:white;width:300px;}
+    button{background:var(--accent);color:white;cursor:pointer;}
+    table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden;}
+    th,td{padding:12px;text-align:center;border-bottom:1px solid #444;}
+    th{background:#333;color:var(--accent);}
+    tr:hover{background:#383838;}
+    .pagination{text-align:center;margin:20px 0;}
+    .pagination a{color:var(--accent);margin:0 5px;text-decoration:none;}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ESP32 Database</h1>
+    <p style="text-align:center;">Total: {{ total }} records</p>
+    <div class="controls">
+      <form method="get">
+        <input type="text" name="search" placeholder="Search time or motor..." value="{{ search }}">
+        <button type="submit">Search</button>
+        <a href="/db"><button type="button">Clear</button></a>
+      </form>
+    </div>
+    <table>
+      <thead><tr><th>Time</th><th>Temp</th><th>pH</th><th>DO</th><th>Motor</th></tr></thead>
+      <tbody>
+        {% for r in rows %}
+        <tr>
+          <td>{{ r[0] }}</td>
+          <td>{{ r[1] if r[1] is not none else '-' }}</td>
+          <td>{{ r[2] if r[2] is not none else '-' }}</td>
+          <td>{{ r[3] if r[3] is not none else '-' }}</td>
+          <td>{{ r[4] if r[4] is not none else '-' }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="pagination">
+      {% if page > 1 %}<a href="?page={{ page-1 }}&search={{ search }}">Prev</a>{% endif %}
+      <span>Page {{ page }} / {{ total_pages }}</span>
+      {% if page < total_pages %}<a href="?page={{ page+1 }}&search={{ search }}">Next</a>{% endif %}
+    </div>
+    <p style="text-align:center;"><a href="/" style="color:var(--accent);">Back to Dashboard</a></p>
+  </div>
+</body>
+</html>

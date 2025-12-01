@@ -1,0 +1,324 @@
+@font-face {
+  font-family: 'consolab'; /* <-- 1. Đặt tên bất kỳ bạn muốn */
+  
+  /* 2. Trỏ đường dẫn đến file font */
+  /* Đường dẫn này là TƯƠNG ĐỐI TỪ file style.css */
+  src: url('fonts/consolab.ttf') format('truetype'); /* 
+  
+  /* Nếu bạn dùng file .ttf, hãy dùng dòng này: */
+  /* src: url('fonts/TenFontCuaBan.ttf') format('truetype'); */
+}
+
+:root {
+    /* Màu sắc chủ đạo theo tone biển */
+    --color-primary: #007bff; /* Xanh biển */
+    --color-secondary: #6c757d; /* Xám */
+    --color-info: #17a2b8; /* Xanh ngọc */
+
+    /* Màu nền mặc định cho các lát quạt */
+    --bg-default: #e9ecef; /* Xám nhạt */
+    --border-default: #adb5bd; /* Xám viền */
+    --text-default: #495057; /* Màu icon */
+
+    /* Kích thước chung */
+    --pie-chart-size: 600px;
+    --power-button-size: 150px;
+}
+
+body {
+    font-family: 'consolab', sans-serif; /* <-- Sửa để khớp với @font-face */
+
+    font-style: bold;
+    font-weight: 200;
+    font-size: 40px;
+    line-height: 77px;
+    letter-spacing: 0.1em;
+
+    color: #00AEFF;
+    
+    /* Các thuộc tính cũ của body (quan trọng) */
+    background-color: #e0f7fa; /* Nền xanh nước biển nhạt */
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    background-color: var(--color-primary);
+    padding: 15px;
+    color: white;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.main-container {
+    display: flex;
+    flex-wrap: wrap; /* Cho phép xuống hàng trên màn hình nhỏ */
+    justify-content: center;
+    gap: 30px;
+    max-width: 1400px;
+    margin: 20px auto;
+    flex-grow: 1;
+}
+
+/* --- KHU VỰC HỒ CÁ (AQUARIUM) --- */
+.aquarium-container {
+    flex: 2; /* Chiếm 2 phần không gian */
+    min-width: 400px; /* Chiều rộng tối thiểu */
+    background: linear-gradient(to bottom, #74b9ff, #0a86ed); /* Màu nước biển */
+    border: 8px solid #0056b3; /* Viền kính bể */
+    border-radius: 15px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.3), 0 10px 20px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+    min-height: 500px;
+}
+
+/* Thêm lại CSS cho .aquarium-info (bị thiếu trong code bạn gửi) */
+.aquarium-info {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    font-size: 0.9rem; /* Reset font-size cho phần này */
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    z-index: 20;
+    /* Reset các thuộc tính font từ body */
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: normal;
+}
+
+/* --- KHU VỰC BIỂU ĐỒ QUẠT (CHART) --- */
+.chart-container {
+    flex: 1; /* Chiếm 1 phần không gian */
+    min-width: 650px; /* Chiều rộng tối thiểu */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Căn giữa hình quạt */
+    gap: 20px;
+}
+
+.pie-chart-wrapper {
+    width: var(--pie-chart-size);
+    height: var(--pie-chart-size);
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.pie-chart {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden; 
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+
+    /* --- PHẦN THÊM MỚI QUAN TRỌNG --- */
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 cột */
+    grid-template-rows: 1fr 1fr;    /* 2 hàng */
+
+    /* 1. Đây chính là "viền" của bạn */
+    gap: 3px; 
+
+    /* 2. Đây là "màu" của viền */
+    background-color: var(--border-default);
+}
+
+.pie-slice {
+    background-color: var(--bg-default); 
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+
+    /* Dùng flexbox để căn giữa icon */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; 
+
+    z-index: 5; 
+}
+
+.pie-slice:hover {
+    transform: scale(1.08); /* Phồng lên khi rê chuột */
+    background-color: #f8f9fa; /* Sáng lên một chút */
+    z-index: 6; /* Nổi lên trên các lát khác */
+}
+
+/* --- THÊM BORDER-RADIUS CHO TỪNG GÓC --- */
+#slice-temp {
+    border-radius: 100% 0 0 0; /* Bo góc trên-trái */
+}
+#slice-oxy {
+    border-radius: 0 100% 0 0; /* Bo góc trên-phải */
+}
+#slice-food {
+    border-radius: 0 0 0 100%; /* Bo góc dưới-trái */
+}
+#slice-ph {
+    border-radius: 0 0 100% 0; /* Bo góc dưới-phải */
+}
+
+/* Định vị Icon */
+.icon-pos {
+    font-size: 2.5rem; /* Giữ nguyên kích thước icon */
+    color: var(--text-default); 
+    pointer-events: none; 
+}
+
+/* Nút nguồn ở giữa */
+.power-button {
+    width: var(--power-button-size);
+    height: var(--power-button-size);
+    background-color: #343a40; /* Màu xám đậm */
+    border-radius: 50%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    z-index: 10; /* Nằm trên các lát quạt */
+}
+
+.power-button:hover {
+    background-color: #495057;
+    transform: scale(1.05);
+}
+
+.power-icon {
+    width: 30px;
+    height: 30px;
+    border: 3px solid white;
+    border-radius: 50%;
+    position: relative;
+}
+
+.power-icon::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 10px;
+    background-color: white;
+}
+
+/* responsive */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .aquarium-container, .chart-container {
+        min-width: unset;
+        width: 95%;
+    }
+    .pie-chart-wrapper {
+        width: 100%;
+        max-width: var(--pie-chart-size);
+    }
+}
+
+/* Wrapper để xếp chồng icon và dữ liệu */
+.slice-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px; /* Khoảng cách giữa icon và chữ */
+    pointer-events: none; /* Cho phép click xuyên qua */
+}
+
+/* Định dạng cho SỐ LIỆU (ví dụ: "25.5") */
+.data-value {
+    /* --- RESET FONT QUAN TRỌNG --- */
+    /* Ghi đè font '1FTV-Keong' từ body */
+    font-family: Arial, sans-serif; 
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1.8rem; /* Kích thước chữ cho dễ đọc */
+    line-height: 1.2;
+    letter-spacing: normal;
+    color: #333; /* Màu chữ tối */
+}
+
+/* Định dạng cho ĐƠN VỊ (ví dụ: "°C") */
+.data-unit {
+    /* --- RESET FONT QUAN TRỌNG --- */
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 0.9rem;
+    line-height: 1;
+    letter-spacing: normal;
+    color: #555; /* Màu chữ xám */
+}
+
+/* Định dạng cho TRẠNG THÁI (ví dụ: "Đang chạy") */
+.data-status {
+    /* (Tương tự như data-value nhưng có thể nhỏ hơn) */
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1.2rem; /* Kích thước chữ cho trạng thái */
+    line-height: 1.2;
+    letter-spacing: normal;
+    color: #333;
+}
+
+/* Trạng thái KÍCH HOẠT (Kết nối thành công) */
+.power-button.active {
+    background-color: #ff3b30; /* Màu đỏ tươi */
+    box-shadow: 0 0 20px rgba(255, 59, 48, 0.6); /* Hiệu ứng phát sáng đỏ */
+    border: 2px solid #ff6b6b;
+}
+
+/* Hiệu ứng khi nhấn nút */
+.power-button:active {
+    transform: scale(0.95); /* Nhún xuống một chút khi click */
+}
+
+.fish {
+    position: absolute; /* Bắt buộc để di chuyển cá */
+    
+    /* Kích thước của cá, bạn có thể chỉnh */
+    width: 80px; 
+    height: 80px;
+    
+    /* ĐƯỜNG DẪN ĐÃ SỬA THEO YÊU CẦU CỦA BẠN */
+    background-image: url('/images/catre.png'); 
+    
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 10;
+    
+    /* Đặt điểm gốc transform về giữa để lật ảnh */
+    transform-origin: center center;
+    
+    /* Ẩn cá ban đầu cho đến khi JS định vị */
+    /* Dùng 'left' thay vì 'display: none' để lấy kích thước */
+    left: -100px; 
+    top: 0;
+}

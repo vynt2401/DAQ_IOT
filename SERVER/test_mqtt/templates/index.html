@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ESP32 Dashboard</title>
+  <script src="https://cdn.socket.io/4.0.0/socket.io.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root{--bg:#1a1a1a;--card:#2d2d2d;--text:#e0e0e0;--accent:#00bcd4;--red:#f44336;--green:#4caf50;}
+    body{font-family:Arial;background:var(--bg);color:var(--text);margin:0;padding:20px;}
+    .container{max-width:1200px;margin:auto;}
+    h1{text-align:center;color:var(--accent);}
+    .status{text-align:center;padding:12px;font-size:1.4em;border-radius:12px;margin:15px 0;font-weight:bold;}
+    .running{background:var(--green);color:white;}
+    .stopped{background:var(--red);color:white;}
+    .charts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:15px;margin-bottom:25px;}
+    canvas{background:var(--card);border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.3);padding:10px;}
+    table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden;margin-bottom:20px;}
+    th,td{padding:10px;text-align:center;border-bottom:1px solid #444;}
+    th{background:#333;color:var(--accent);}
+    .btn{display:block;margin:20px auto;padding:12px 24px;background:var(--accent);color:white;border:none;border-radius:8px;cursor:pointer;text-decoration:none;text-align:center;width:200px;}
+    @media (max-width:900px){.charts{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>ESP32 Realtime Dashboard</h1>
+    <div class="status" id="motorStatus">Motor: STOPPED</div>
+    <div class="charts">
+      <canvas id="tempChart"></canvas>
+      <canvas id="phChart"></canvas>
+      <canvas id="doChart"></canvas>
+    </div>
+    <table id="dataTable">
+      <thead><tr><th>Time</th><th>Temp</th><th>pH</th><th>DO</th><th>Motor</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <a href="/db" class="btn">View Database</a>
+    <a href="/export_csv" class="btn" style="background:#4caf50;">Export CSV</a>
+  </div>
+
+  <script>
+    const socket = io();
+    const createChart = (ctx, label, color, unit = '') => {
+      return new Chart(ctx, {
+        type: 'line',
+        data: { labels: [], datasets: [{ label, data: [], borderColor: color, backgroundColor: color + '20', fill: true, tension: 0.3 }] },
+        options: {
+          responsive: true,
+          plugins: {
+            tooltip: { mode: 'index', intersect: false, backgroundColor: 'rgba(0,0,0,0.8)', titleColor: '#fff', bodyColor: '#fff',
+              callbacks: { label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y}${unit}` }
+            },
+            legend: { labels: { color: '#e0e0e0' } }
+          },
+          scales: { x: { ticks: { color: '#aaa' }, grid: { color: '#444' } }, y: { ticks: { color: '#aaa' }, grid: { color: '#444' } } }
+        }
+      });
+    };
+    const tempChart = createChart(document.getElementById('tempChart'), 'Temp', '#f44336', 'C');
+    const phChart = createChart(document.getElementById('phChart'), 'pH', '#2196f3');
+    const doChart = createChart(document.getElementById('doChart'), 'DO', '#4caf50', '%');
+    const tableBody = document.querySelector('#dataTable tbody');
+
+    socket.on('update_all', (data) => {
+      [tempChart, phChart, doChart].forEach((chart, i) => {
+        const keys = ['temp', 'ph', 'do'];
+        chart.data.labels = data.labels;
+        chart.data.datasets[0].data = data[keys[i]];
+        chart.update('quiet');
+      });
+      const statusEl = document.getElementById('motorStatus');
+      statusEl.textContent = `Motor: ${data.motor}`;
+      statusEl.className = data.motor.includes('RUNNING') ? 'status running' : 'status stopped';
+      tableBody.innerHTML = '';
+      data.table.slice().reverse().forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${row.time}</td><td>${row.temp}</td><td>${row.ph}</td><td>${row.do}</td><td>${row.motor}</td>`;
+        tableBody.appendChild(tr);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SeA Envisor</title>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>MÁY THEO DÕI THỦY - HẢI SẢN</h1>
+
+    <div class="monitor-container">
+        <div class="monitor-item status-default" id="ph-item">
+            <label for="input-ph">Nhập giá trị Độ pH:</label>
+            <input type="number" id="input-ph" placeholder="Ví dụ: 7.5">
+            <div class="status-text" id="ph-status-text">Trạng thái: Chưa xác định</div>
+        </div>
+
+        <div class="monitor-item status-default" id="food-item">
+            <label for="input-food">Nhập Lượng thức ăn (%):</label>
+            <input type="number" id="input-food" placeholder="Ví dụ: 80">
+            <div class="status-text" id="food-status-text">Trạng thái: Chưa xác định</div>
+        </div>
+
+        <div class="monitor-item status-default" id="temp-item">
+            <label for="input-temp">Nhập Nhiệt độ (°C):</label>
+            <input type="number" id="input-temp" placeholder="Ví dụ: 28">
+            <div class="status-text" id="temp-status-text">Trạng thái: Chưa xác định</div>
+        </div>
+
+        <div class="monitor-item status-default" id="oxy-item">
+            <label for="input-oxy">Nhập Nồng độ Oxy (mg/L):</label>
+            <input type="number" id="input-oxy" placeholder="Ví dụ: 5">
+            <div class="status-text" id="oxy-status-text">Trạng thái: Chưa xác định</div>
+        </div>
+    </div>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
