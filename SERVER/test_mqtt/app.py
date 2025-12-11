@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-# app.py - ESP32 Dashboard + SQLite + Web DB + CSV Export
+# app.py, db.html, index.html -> ESP32 Dashboard + SQLite + Web DB + CSV Export
+# author: Nguyen The Vy - github: https://github.com/vynt2401
+# Created: Thursday, 13 November 2025
 import eventlet
 eventlet.monkey_patch()
 
@@ -17,10 +19,10 @@ app = Flask(__name__)
 socketio = SocketIO(app, async_mode='eventlet', cors_allowed_origins="*")
 
 # --- DATABASE PATH (AN TOAN, TRONG THU MUC HIEN TAI) ---
-DB_PATH = '/home/ntv/iot_data/data.db'  # ÐU?NG D?N M?I, QUY?N 777
+DB_PATH = '/home/ntv/iot_data/data.db'  
 def init_db():
     try:
-        # T?o thu m?c n?u c?n
+    
         db_dir = os.path.dirname(DB_PATH)
         if db_dir and not os.path.exists(db_dir):
             os.makedirs(db_dir, exist_ok=True)
@@ -103,12 +105,12 @@ def on_message(client, userdata, msg):
 
     save_to_db(temp_val, ph_val, do_val, motor_val)
 
-    # Update realtime table
+
     chart_data['table'].append(row)
     if len(chart_data['table']) > 20:
         chart_data['table'].pop(0)
 
-    # Limit chart
+
     for key in ['temp', 'ph', 'do']:
         if len(chart_data[key]) > MAX_POINTS:
             chart_data[key].pop(0)
