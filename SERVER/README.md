@@ -100,3 +100,13 @@ pip install -r .\requirement.txt
 #Linux (ubuntu)
 python -m pip install requirement.txt
 ```
+
+And run this server by
+
+```
+#Windows
+python server.py
+
+#Linux (ubuntu)
+python3 server.py
+```
