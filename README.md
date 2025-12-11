@@ -6,6 +6,8 @@
 
 Hệ thống thu thập và giám sát dữ liệu thời gian thực từ cảm biến công nghiệp/nghiên cứu, chạy trên Orange Pi (Armbian) kết hợp MQTT + Web Dashboard.
 
+# PPT this repositories: [!Presentation](https://www.canva.com/design/DAG4TLjTsxc/xBy0oUKYvd4zlGKbvBOHkw/edit?ui=eyJEIjp7IlAiOnsiQiI6ZmFsc2V9fX0)
+
 ## Tổng quan kiến trúc
 
 
