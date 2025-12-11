@@ -105,8 +105,8 @@ And run this server by
 
 ```
 #Windows
-python server.py
+python app.py
 
 #Linux (ubuntu)
-python3 server.py
+python3 app.py
 ```
