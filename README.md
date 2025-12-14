@@ -49,7 +49,7 @@ DAQ_IOT/
 
 ## Yêu cầu phần cứng
 
-- Orange Pi Zero 2W / Orange Pi 5 / PC bất kỳ
+- Orange Pi Zero H3 / Orange Pi 5 / PC bất kỳ
 - Mosquitto broker (có thể chạy cùng máy hoặc riêng)
 - Các module ADC (ADS1115, MCP3428, v.v.)
 
