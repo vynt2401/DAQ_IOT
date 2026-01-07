@@ -207,10 +207,8 @@ def handle_connect():
     socketio.emit('update_all', chart_data)
 
 if __name__ == '__main__':
-    print("DASHBOARD: http://192.168.137.103:5000")  # thay IP thật
+    print("DASHBOARD: http://192.168.137.103:5000")
     print("DATABASE:  http://192.168.137.103:5000/db")
     print("EXPORT:    http://192.168.137.103:5000/export_csv")
     
-    # Dùng uvicorn để chạy với asyncio
-    import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=5000, workers=1)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True, allow_unsafe_werkzeug=True)
