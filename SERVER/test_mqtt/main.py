@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
+# created on October 20, 2025
 # main.py - ESP32 Dashboard + SQLite + Web DB + CSV Export
 # author: Nguyen The Vy - github: https://github.com/vynt2401
-# Updated: January 2026 - Removed deprecated Eventlet, use threading async mode
+
+# updated new version: January 2026 - Removed deprecated Eventlet, use threading async mode
+
+# connect with new app release at the same time
+
 
 from flask import Flask, render_template, request, send_file
 from flask_socketio import SocketIO
@@ -14,7 +19,7 @@ import io
 import csv
 
 app = Flask(__name__)
-# Sử dụng async_mode='threading' để tránh lỗi deprecated và treo
+# use async_mode='threading' 
 socketio = SocketIO(app, async_mode='threading', cors_allowed_origins="*")
 
 # --- DATABASE PATH ---
@@ -38,7 +43,7 @@ def init_db():
                 motor TEXT
             )
         ''')
-        # Giữ tối đa 10000 bản ghi mới nhất
+        
         c.execute('DELETE FROM sensor_data WHERE id NOT IN (SELECT id FROM sensor_data ORDER BY id DESC LIMIT 10000)')
         conn.commit()
         conn.close()
@@ -131,18 +136,18 @@ def on_message(client, userdata, msg, properties=None):
 
     socketio.emit('update_all', chart_data)
 
-# Khởi tạo MQTT client với API version mới (không cảnh báo deprecated)
+# mqtt client with new api
 mqtt_client = mqtt_client.Client(mqtt_client.CallbackAPIVersion.VERSION2)
 mqtt_client.on_connect = on_connect
 mqtt_client.on_message = on_message
 
-# Kết nối MQTT local
+# mqtt local
 mqtt_client.connect('127.0.0.1', 1883, 60)
 
-# Chạy MQTT loop trong thread riêng
+# mqtt in threads
 threading.Thread(target=mqtt_client.loop_forever, daemon=True).start()
 
-# --- ROUTES ---
+# --- ROUTES --- --> topic in mqtt
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -208,10 +213,11 @@ def handle_connect():
     socketio.emit('update_all', chart_data)
 
 if __name__ == '__main__':
-    CURRENT_IP = "192.168.137.103"  # Thay bằng IP thật của Orange Pi (hoặc dùng socket.gethostbyname)
+    CURRENT_IP = "192.168.137.103"  # when connecting to a new network 
+    # --> check what the current IP of the server is --> use "host -I" if on Armbian and change this line
     print(f"DASHBOARD: http://{CURRENT_IP}:5000")
     print(f"DATABASE:  http://{CURRENT_IP}:5000/db")
     print(f"EXPORT:    http://{CURRENT_IP}:5000/export_csv")
     
-    # Chạy server với threading mode
+    # run server with threads mode
     socketio.run(app, host='0.0.0.0', port=5000, debug=False, allow_unsafe_werkzeug=True)
