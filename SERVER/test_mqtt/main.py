@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-# app.py - ESP32 Dashboard + SQLite + Web DB + CSV Export
+# main.py - ESP32 Dashboard + SQLite + Web DB + CSV Export
 # author: Nguyen The Vy - github: https://github.com/vynt2401
-# Updated: January 2026 - Removed deprecated Eventlet & MQTT v1 callback
+# Updated: January 2026 - Removed deprecated Eventlet, use threading async mode
 
-from flask import Flask, render_template, jsonify, request, send_file
+from flask import Flask, render_template, request, send_file
 from flask_socketio import SocketIO
 from paho.mqtt import client as mqtt_client
 from datetime import datetime
@@ -14,7 +14,8 @@ import io
 import csv
 
 app = Flask(__name__)
-socketio = SocketIO(app, async_mode='gevent', cors_allowed_origins="*")
+# Sử dụng async_mode='threading' để tránh lỗi deprecated và treo
+socketio = SocketIO(app, async_mode='threading', cors_allowed_origins="*")
 
 # --- DATABASE PATH ---
 DB_PATH = '/home/ntv/iot_data/data.db'
@@ -130,12 +131,12 @@ def on_message(client, userdata, msg, properties=None):
 
     socketio.emit('update_all', chart_data)
 
-# Khởi tạo MQTT client với API version mới
+# Khởi tạo MQTT client với API version mới (không cảnh báo deprecated)
 mqtt_client = mqtt_client.Client(mqtt_client.CallbackAPIVersion.VERSION2)
 mqtt_client.on_connect = on_connect
 mqtt_client.on_message = on_message
 
-# Kết nối MQTT (local broker)
+# Kết nối MQTT local
 mqtt_client.connect('127.0.0.1', 1883, 60)
 
 # Chạy MQTT loop trong thread riêng
@@ -207,9 +208,10 @@ def handle_connect():
     socketio.emit('update_all', chart_data)
 
 if __name__ == '__main__':
-    CURRENT_IP = "192.168.137.103"  # Thay bằng IP thật của bạn, hoặc dùng hostname -I
+    CURRENT_IP = "192.168.137.103"  # Thay bằng IP thật của Orange Pi (hoặc dùng socket.gethostbyname)
     print(f"DASHBOARD: http://{CURRENT_IP}:5000")
     print(f"DATABASE:  http://{CURRENT_IP}:5000/db")
     print(f"EXPORT:    http://{CURRENT_IP}:5000/export_csv")
     
+    # Chạy server với threading mode
     socketio.run(app, host='0.0.0.0', port=5000, debug=False, allow_unsafe_werkzeug=True)
