@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# created on October 20, 2025
+#  Created: Thursday, 13 November 2025
 # main.py - ESP32 Dashboard + SQLite + Web DB + CSV Export
 # author: Nguyen The Vy - github: https://github.com/vynt2401
 
