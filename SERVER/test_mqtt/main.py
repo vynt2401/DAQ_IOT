@@ -14,7 +14,7 @@ import io
 import csv
 
 app = Flask(__name__)
-socketio = SocketIO(app, async_mode='asyncio', cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 # --- DATABASE PATH ---
 DB_PATH = '/home/ntv/iot_data/data.db'
