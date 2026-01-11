@@ -1,55 +1,26 @@
-IoT Dashboard Server - Orange Pi & ESP32 System
-📋 Overview
-Real-time IoT Dashboard for Aquaculture Monitoring
-Full-stack system: ESP32 → MQTT → Flask (Python) → Responsive Web Dashboard + SQLite + Security
 
-✨ Main Features
-Realtime monitoring: Temperature, pH, Dissolved Oxygen (DO)
+## Full-stack system: ESP32 → MQTT → Flask (Python) → Responsive Web Dashboard + SQLite + Security
 
-Smart aeration control – Auto turn on/off pump when DO < 100%
+## Backend: Python Flask, Flask-SocketIO, Paho-MQTT
 
-Automatic fish feeder with remaining feed tracking
+## Frontend: HTML5, CSS3
 
-Dark-mode responsive dashboard (mobile friendly)
+## atabase: SQLite (lightweight, no installation)
 
-Historical data with search, pagination, CSV export
+## OS: Armbian (Orange Pi Zero 512mb)
 
-SQLite database – persistent storage (up to 10,000 records)
+## Security: UFW Firewall, Basic Auth, Fail2ban
 
-High security: HTTPS, LAN-only binding, Basic Auth, Firewall, Honeypot trap
 
-Self-recovery: systemd service → auto restart on power loss
-
-Zero maintenance – works 24/7 in remote fish ponds
-
-🏗️ System Architecture
-text
-            ESP32 Sensors & Actuators
-                  ↓ (WiFi)
-            Mosquitto MQTT Broker
-                  ↓
-            Flask + Socket.IO (Python)
-                  ↓
-            Web Dashboard (Chart.js)
-                  ↓
-            SQLite Database + CSV Export
-🛠️ Core Technology
-Backend: Python Flask, Flask-SocketIO, Paho-MQTT
-
-Frontend: HTML5, CSS3, Chart.js
-
-Database: SQLite (lightweight, no installation)
-
-OS: Armbian (Orange Pi Zero 512mb)
-
-Security: HTTPS (self-signed), UFW Firewall, Basic Auth, Honeypot
-
-🚀 Quick Start
 1. Clone Repository
+```
 bash
 git clone https://github.com/vynt2401/DAQ_IOT.git
 cd DAQ_IOT/SERVER
+```
+
 2. Prerequisites Check
+```
 Linux (Ubuntu/Armbian)
 bash
 python3 --version
@@ -60,7 +31,9 @@ Windows
 bash
 python --version
 # Download from: https://www.python.org/downloads/
+```
 3. Setup Virtual Environment
+```
 Linux (Ubuntu/Armbian)
 bash
 python3 -m pip install virtualenv
@@ -70,29 +43,34 @@ Windows
 bash
 python -m venv env
 .\env\Scripts\activate
+```
 4. Install Dependencies
+```
 bash
 pip install -r requirement.txt
-⚡ Automated CLI Tool (Bash Script)
+```
+Automated CLI Tool (Bash Script)
 The system includes an automated CLI tool iotcli for easy server management.
 
 Installation & Setup
 Copy the script to system path:
-
+```
 bash
 # Copy the bash script to /usr/local/bin
 sudo cp iotcli.sh /usr/local/bin/iotcli
 sudo chmod +x /usr/local/bin/iotcli
+```
 Configure paths in the script (if needed):
 Edit the following variables in the script:
-
+```
 bash
 APP_DIR="/home/ntv/DAQ_IOT/SERVER/test_mqtt"  # Your server directory
 APP_USER="ntv"                                 # Your username
 PYTHON_BIN="/home/ntv/DAQ_IOT/SERVER/env/bin/python3"  # Python venv path
-🎯 CLI Usage Examples
+```
+CLI Usage Examples
 Basic Server Control:
-
+```
 bash
 # Start the server
 sudo iotcli start
@@ -144,9 +122,12 @@ Help & All Commands:
 
 bash
 sudo iotcli
-🔧 Manual Server Execution
+```
+## Manual Server Execution
+
 Without CLI Tool
 Linux (Ubuntu/Armbian)
+```
 bash
 cd /path/to/SERVER/test_mqtt
 source ../env/bin/activate
@@ -156,15 +137,18 @@ bash
 cd \path\to\SERVER\test_mqtt
 ..\env\Scripts\activate
 python app.py
-📊 Systemd Service Setup (Optional)
+```
+## Systemd Service Setup (Optional)
 For production deployment with auto-restart:
 
 Enable systemd service:
-
+```
 bash
 sudo iotcli enable-service
-Manage the service:
+```
 
+Manage the service:
+```
 bash
 # Start service
 sudo systemctl start iot-dashboard.service
@@ -177,6 +161,7 @@ sudo systemctl status iot-dashboard.service
 
 # View logs
 sudo journalctl -u iot-dashboard.service -f
+```
 The service will:
 
 Auto-start on boot
@@ -187,12 +172,13 @@ Run as your specified user
 
 Log to server.log
 
-🌐 Access Dashboard
+## Access Dashboard
 After starting the server:
-
+```
 bash
 # Get your Orange Pi IP address
 hostname -I
+```
 
 # Access dashboard in browser
 http://<YOUR_ORANGE_PI_IP>:5000
@@ -207,9 +193,11 @@ Current IP: 192.168.1.100
 RAM usage:
               total        used        free
 Mem:          985MB        245MB       740MB
-🔒 Security Configuration
+
+
+## Security Configuration
 1. Firewall Setup
-bash
+```bash
 # Enable firewall
 sudo iotcli firewall enable
 
@@ -221,6 +209,7 @@ sudo iotcli firewall allow-port 5000
 
 # Check status
 sudo iotcli firewall status
+```
 2. Change Default Credentials
 Edit app.py or main.py to update:
 
@@ -230,7 +219,7 @@ MQTT credentials
 
 Secret keys
 
-💾 Database Management
+## Database Management
 Backup Automation
 The CLI tool automatically:
 
@@ -243,9 +232,10 @@ Keeps last 7 backups
 Stores in /home/ntv/iot_data/backups/
 
 Manual backup:
-
+```
 bash
 sudo iotcli backup
+```
 Export Data
 Access the dashboard and use:
 
@@ -253,53 +243,8 @@ CSV export from web interface
 
 Direct SQLite access: /home/ntv/iot_data/data.db
 
-🐛 Troubleshooting
-Common Issues:
-"Permission denied" when running iotcli
 
-bash
-# Ensure script is executable
-sudo chmod +x /usr/local/bin/iotcli
-Port 5000 already in use
-
-bash
-# Clear the port
-sudo iotcli clear-port 5000
-# Or find and kill process
-sudo lsof -i :5000
-Python module not found
-
-bash
-# Re-activate virtual environment
-source /home/ntv/DAQ_IOT/SERVER/env/bin/activate
-pip install -r requirement.txt
-Server not starting
-
-bash
-# Check logs
-sudo iotcli log
-# Or manually
-tail -f /path/to/server.log
-Logs Location:
-CLI logs: server.log in your app directory
-
-Systemd logs: journalctl -u iot-dashboard.service
-
-📁 Project Structure
-text
-DAQ_IOT/
-└── SERVER/
-    ├── test_mqtt/          # Main server application
-    │   ├── main.py         # Flask application
-    │   ├── templates/      # HTML templates
-    │   └── static/         CSS, JS files
-    ├── env/               # Python virtual environment
-    ├── requirement.txt    # Python dependencies
-    ├── iotcli.sh          # CLI automation script
-    └── README.md          # This file
-📞 Support & Resources
-Author: Nguyen The Vy
-
+# SOURCE 
 GitHub: https://github.com/vynt2401
 
 Repository: https://github.com/vynt2401/DAQ_IOT
@@ -309,6 +254,7 @@ Created: Thursday, 13 November 2025
 Last Updated: January 2026
 
 Useful Commands Cheat Sheet
+```
 bash
 # Quick start
 sudo iotcli start && sudo iotcli firewall allow-port 5000
@@ -323,3 +269,4 @@ sudo systemctl start iot-dashboard.service
 sudo iotcli backup          # Backup database
 sudo iotcli status          # Check status
 sudo iotcli log            # View logs
+```
