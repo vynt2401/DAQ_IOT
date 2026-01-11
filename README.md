@@ -142,5 +142,3 @@ Cải thiện giao diện → thư mục web/
 Thêm InfluxDB + Grafana → nhánh influxdb
 
 
-### If can't run this repositrories --> can connect to me by profile to ask
-
