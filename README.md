@@ -133,12 +133,4 @@ MQTT_PASS=123456
 
 
 
-### Contributes
-
-Rất hoan nghênh pull request!
-
-Thêm driver cảm biến mới → thư mục firmware/drivers/
-Cải thiện giao diện → thư mục web/
-Thêm InfluxDB + Grafana → nhánh influxdb
-
 
