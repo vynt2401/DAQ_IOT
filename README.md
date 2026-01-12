@@ -1,4 +1,4 @@
-# DAQ_IoT – Hệ thống thu thập dữ liệu IoT đa kênh
+# DAQ IoT – Hệ thống thu thập dữ liệu IoT đa kênh
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/Python-3.9%2B-blue)](https://www.python.org/)
@@ -54,14 +54,14 @@ DAQ_IOT/
 - Các module ADC (ADS1115, MCP3428, v.v.)
 
   ## Lưu ý quan trọng khi “đổi trạng thái đi” (Orange Pi ↔ Laptop/PC Windows)
-
-| Trường hợp                        | MQTT Broker phải để là gì?               | Ghi chú quan trọng                                                                 |
-|-----------------------------------|----------------------------------------|-------------------------------------------------------------------------------------|
-| Chạy toàn bộ trên Orange Pi       | `127.0.0.1` hoặc `localhost`           | Mosquitto phải chạy trên chính con Pi                                               |
-| Chạy server/web trên laptop/PC    | IP thực của Orange Pi (ví dụ `192.168.1.69`)| Laptop và Pi phải cùng mạng WiFi/LAN                                               |
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Trường hợp                        | MQTT Broker phải để là gì?                          | Ghi chú quan trọng                                                                 |
+|-----------------------------------|-----------------------------------------------------|------------------------------------------------------------------------------------|
+| Chạy toàn bộ trên Orange Pi       | `127.0.0.1` hoặc `localhost`                        | Mosquitto phải chạy trên chính con Pi                                              |
+| Chạy server/web trên laptop/PC    | IP thực của Orange Pi (ví dụ `192.168.1.69`)        | Laptop và Pi phải cùng mạng WiFi/LAN                                               |
 | Chỉ test code trên laptop (không có Pi) | `broker.hivemq.com` hoặc `test.mosquitto.org` | Dùng tạm, dữ liệu công khai                                                        |
-| Chạy Mosquitto trên Windows       | `127.0.0.1`                            | Cài Mosquitto Windows hoặc dùng Docker                                             |
-
+| Chạy Mosquitto trên Windows       | `127.0.0.1`                                         | Cài Mosquitto Windows hoặc dùng Docker                                             |
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 **Checklist nhanh trước khi chạy lại sau khi đổi máy:**
 
 ```
