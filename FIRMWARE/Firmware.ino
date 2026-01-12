@@ -6,9 +6,10 @@
 #include <Adafruit_MAX31865.h>
 
  //--- CẤU HÌNH WI-FI & MQTT ---
-const char* ssid = "utp";
-const char* password = "12345678";
-const char* mqtt_server = "192.168.137.14";
+const char* ssid = "utp"; // --> change by your Wifi SSID
+const char* password = "12345678";  // --> change by your Wifi password
+// SSID and Password in lolcal network
+const char* mqtt_server = "192.168.137.14"; // --> check your MQTT broker IP or your server IP and change here 
 const int mqtt_port = 1883;
 
  WiFiClient espClient;

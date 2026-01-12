@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#  Created: Thursday, 13 November 2025
+# Created: Thursday, 13 November 2025
 # main.py - ESP32 Dashboard + SQLite + Web DB + CSV Export
 # author: Nguyen The Vy - github: https://github.com/vynt2401
 
@@ -23,7 +23,7 @@ app = Flask(__name__)
 socketio = SocketIO(app, async_mode='threading', cors_allowed_origins="*")
 
 # --- DATABASE PATH ---
-DB_PATH = '/home/ntv/iot_data/data.db'
+DB_PATH = '/home/ntv/iot_data/data.db' # --> change your database path here
 
 def init_db():
     try:
